@@ -15,6 +15,7 @@ public class Gamepad_JS extends OpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
     }
+
     @Override
     public void loop() {
         double LeftX = gamepad1.left_stick_x / 2;
@@ -26,10 +27,11 @@ public class Gamepad_JS extends OpMode {
             LeftY *= 2;
         }
         if(B = true){
-            LeftX = gamepad1.left_stick_y;
-            LeftY = gamepad1.left_stick_x;
+            LeftX = gamepad1.left_stick_y / 2;
+            LeftY = gamepad1.left_stick_x / 2;
         }
         telemetry.addData("Left X", LeftX);
         telemetry.addData("Left Y", LeftY);
+        telemetry.update();
     }
 }
