@@ -12,10 +12,6 @@ public class Exercises_4_SB extends OpMode {
     public void init() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        double joystickLeftX = gamepad1.left_stick_x / 2;
-        double joystickLeftY = -gamepad1.left_stick_y / 2;
-        double joystickRightX = gamepad1.right_stick_x / 2;
-        double joystickRightY = -gamepad1.right_stick_y / 2;
     }
 
     @Override
