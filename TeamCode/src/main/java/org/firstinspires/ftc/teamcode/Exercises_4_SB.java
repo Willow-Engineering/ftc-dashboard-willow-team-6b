@@ -12,32 +12,36 @@ public class Exercises_4_SB extends OpMode {
     public void init() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        double joystickLeftX = gamepad1.left_stick_x / 2;
+        double joystickLeftY = -gamepad1.left_stick_y / 2;
+        double joystickRightX = gamepad1.right_stick_x / 2;
+        double joystickRightY = -gamepad1.right_stick_y / 2;
     }
 
     @Override
     public void loop() {
         double joystickLeftX = gamepad1.left_stick_x / 2;
-        double joystickLeftY = gamepad1.left_stick_y / 2;
+        double joystickLeftY = -gamepad1.left_stick_y / 2;
         double joystickRightX = gamepad1.right_stick_x / 2;
-        double joystickRightY = gamepad1.right_stick_y / 2;
-        if(gamepad1.b) {
-            joystickLeftX = gamepad1.left_stick_y / 2;
-            joystickLeftY = gamepad1.left_stick_x / 2;
-            joystickRightX = gamepad1.right_stick_y / 2;
-            joystickRightY = gamepad1.right_stick_x / 2;
+        double joystickRightY = -gamepad1.right_stick_y / 2;
+        if (gamepad1.b) {
+            joystickLeftX *= 2;
+            joystickLeftY *= 2;
+            joystickRightX *= 2;
+            joystickRightY *= 2;
         }
-        while(gamepad1.a) {
-            if(gamepad1.b) {
-                joystickLeftX = gamepad1.left_stick_y;
+        while (gamepad1.a) {
+            if (gamepad1.b) {
+                joystickLeftX = -gamepad1.left_stick_y;
                 joystickLeftY = gamepad1.left_stick_x;
-                joystickRightX = gamepad1.right_stick_y;
+                joystickRightX = -gamepad1.right_stick_y;
                 joystickRightY = gamepad2.right_stick_x;
             }
             else {
-                joystickLeftX = gamepad1.left_stick_x;
-                joystickLeftY = gamepad1.left_stick_y;
-                joystickRightX = gamepad1.right_stick_x;
-                joystickRightY = gamepad2.right_stick_y;
+                joystickLeftX = -gamepad1.left_stick_y / 2;
+                joystickLeftY = gamepad1.left_stick_x / 2;
+                joystickRightX = -gamepad1.right_stick_y / 2;
+                joystickRightY = gamepad2.right_stick_x / 2;
             }
         }
         telemetry.addData("Left joystick X", joystickLeftX);
