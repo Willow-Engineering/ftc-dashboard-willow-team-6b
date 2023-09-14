@@ -24,7 +24,7 @@ public class Variables_JS {
         telemetry.addData("right stick x", gamepad1.left_stick_x);
         telemetry.addData("right stick y", gamepad1.left_stick_y);
         telemetry.addData("B button pressed", gamepad1.b);
-        telemetry.addData("stick y difference", gamepad1.left_stick_y-gamepad1.right_stick_y);
-        telemetry.addData("trigger sum", gamepad1.left_trigger+gamepad1.right_trigger);
+        telemetry.addData("stick y difference", gamepad1.left_stick_y - gamepad1.right_stick_y);
+        telemetry.addData("trigger sum", gamepad1.left_trigger + gamepad1.right_trigger);
     }
 }
