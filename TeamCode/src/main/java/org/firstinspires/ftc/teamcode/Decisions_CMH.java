@@ -14,7 +14,6 @@ public class Decisions_CMH extends OpMode {
         double ForwardSpeed = -gamepad1.left_stick_y / 2;
         double lStick_x = gamepad1.left_stick_x / 2;
         double lStick_y = gamepad1.left_stick_y / 2;
-
         if (gamepad1.a) {
             telemetry.addData("X = ", lStick_y);
             telemetry.addData("Y = ", lStick_x);
@@ -24,6 +23,7 @@ public class Decisions_CMH extends OpMode {
             telemetry.addData("X = ", lStick_x);
             telemetry.addData("Y = ", lStick_y);
         }
+        telemetry.addData("Forward Speed = ", ForwardSpeed);
         telemetry.update();
     }
 }
