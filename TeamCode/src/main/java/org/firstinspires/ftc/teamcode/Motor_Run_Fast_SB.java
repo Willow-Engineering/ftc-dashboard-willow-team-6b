@@ -16,6 +16,8 @@ public class Motor_Run_Fast_SB extends OpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
+        motor1  = hardwareMap.get(DcMotor.class, "motor1");
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
