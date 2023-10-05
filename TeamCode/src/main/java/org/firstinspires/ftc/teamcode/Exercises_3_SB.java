@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Exercises_4_SB")
+@TeleOp(name = "Exercises_3_SB")
 public class Exercises_3_SB extends OpMode {
 
     @Override
