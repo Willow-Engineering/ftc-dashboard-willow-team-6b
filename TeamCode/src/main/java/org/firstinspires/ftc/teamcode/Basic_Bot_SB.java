@@ -88,12 +88,11 @@ public class Basic_Bot_SB extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
-            double armPower
+            double armPower;
 
             // Setup a variable for each trigger to affect the arm's movement
             double armRight;
             double armLeft;
-            double armDrive;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
