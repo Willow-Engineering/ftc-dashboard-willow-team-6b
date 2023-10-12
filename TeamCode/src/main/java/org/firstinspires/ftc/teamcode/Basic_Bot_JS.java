@@ -58,6 +58,7 @@ public class Basic_Bot_JS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    private DcMotor Arm = null;
 
     @Override
     public void runOpMode() {
@@ -110,7 +111,15 @@ public class Basic_Bot_JS extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
-
+            if(gamepad1.right_bumper){
+                Arm.setPower(0.2);
+            }
+            else if(gamepad1.left_bumper){
+                Arm.setPower(-0.2);
+            }
+            else {
+                Arm.setPower(0);
+            }
         }
     }
 }
