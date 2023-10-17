@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -66,6 +67,8 @@ public class Basic_Bot_JS extends LinearOpMode {
     private DcMotor rightDrive = null;
     private DcMotorEx Arm = null;
     private TouchSensor touch = null;
+    Servo leftIntake;
+    Servo rightIntake;
 
     @Override
     public void runOpMode() {
@@ -77,9 +80,11 @@ public class Basic_Bot_JS extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        Arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "Arm");
+        leftDrive  = hardwareMap.get(DcMotor.class, "leftDrive");
+        rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
+        Arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "arm");
+        leftIntake = hardwareMap.get(Servo.class, "leftIntake");
+        rightIntake = hardwareMap.get(Servo.class, "rightIntake");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -118,33 +123,33 @@ public class Basic_Bot_JS extends LinearOpMode {
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
             telemetry.update();
-           /* if(!touch.isPressed()) {
+            if(!touch.isPressed()) {
                 if (gamepad1.right_bumper) {
-                    Arm.setPower(0.2);
+                    Arm.setVelocity(-300);
                 } else if (gamepad1.left_bumper) {
-                    Arm.setPower(-0.2);
+                    Arm.setVelocity(150);
                 } else {
-                    Arm.setPower(0);
+                    Arm.setVelocity(0);
                 }
             }
             else{
                 if(gamepad1.right_bumper){
-                    Arm.setPower(0.2);
+                    Arm.setVelocity(-300);
                 }
                 else {
                     Arm.setPower(0);
                 }
             }
-            */
+
             telemetry.addData("Arm Position: ", Arm.getCurrentPosition());
             telemetry.update();
             if(gamepad1.a){
-                Arm.setTargetPosition(900);
+                Arm.setTargetPosition(-750);
                 Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 Arm.setVelocity(300);
             }
             else if(gamepad1.b){
-                Arm.setTargetPosition(450);
+                Arm.setTargetPosition(-1500);
                 Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 Arm.setVelocity(300);
             }

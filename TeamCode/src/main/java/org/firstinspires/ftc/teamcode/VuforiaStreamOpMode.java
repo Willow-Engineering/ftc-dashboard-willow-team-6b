@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
  * your Vuforia key below and select the 'Camera' preset on top right of the dashboard. This sample
  * also works for UVCs with slight adjustments.
  */
-@Autonomous
-public class VuforiaStreamOpMode extends LinearOpMode {
+//@Autonomous
+/*public class VuforiaStreamOpMode extends LinearOpMode {
 
     // TODO: fill in
     public static final String VUFORIA_LICENSE_KEY = "YOUR KEY HERE";
@@ -35,4 +35,4 @@ public class VuforiaStreamOpMode extends LinearOpMode {
 
         while (opModeIsActive());
     }
-}
+}*/
