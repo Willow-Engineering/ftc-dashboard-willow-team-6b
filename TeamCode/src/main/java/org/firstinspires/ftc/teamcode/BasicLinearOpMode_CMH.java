@@ -3,16 +3,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-@TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
-@Disabled
+@TeleOp(name="BasicLinearOpMode_CMH", group="Linear OpMode")
+//@Disabled
 public class BasicLinearOpMode_CMH extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    private DcMotor arm = null;
+    private DcMotorEx arm = null;
     Servo leftIntake;
     Servo rightIntake;
     @Override
@@ -21,14 +22,15 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
         telemetry.update();
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        arm = hardwareMap.get(DcMotor.class, "right_drive");
+        arm = hardwareMap.get(DcMotorEx.class, "right_drive");
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        arm.setDirection(DcMotorEx.Direction.FORWARD);
         leftIntake = hardwareMap.get(Servo.class, "left_intake");
         rightIntake = hardwareMap.get(Servo.class, "right_intake");
         int driveMode = 0;
         waitForStart();
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         runtime.reset();
         while (opModeIsActive()) {
             if (driveMode == 0) {
@@ -41,6 +43,9 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 leftDrive.setPower(leftPower);
                 rightDrive.setPower(rightPower);
                 arm.setPower(armPower);
+                arm.setTargetPosition(70);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setVelocity(300);
                 leftIntake.setPosition(intakePos);
                 rightIntake.setPosition(-intakePos);
                 telemetry.addData("Motors", "left (%.2f), right (%.2f), arm (%.2f)", leftPower, rightPower, armPower);
@@ -50,6 +55,7 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 double rightPower = -gamepad1.right_stick_y ;
             }
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Arm Position,", arm.getCurrentPosition());
             telemetry.update();
         }
     }
