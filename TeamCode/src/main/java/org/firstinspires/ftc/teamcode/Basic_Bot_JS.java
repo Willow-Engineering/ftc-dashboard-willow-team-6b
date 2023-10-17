@@ -33,6 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -59,6 +62,7 @@ public class Basic_Bot_JS extends LinearOpMode {
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotor Arm = null;
+    private TouchSensor touch = null;
 
     @Override
     public void runOpMode() {
@@ -80,6 +84,7 @@ public class Basic_Bot_JS extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+        Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -111,14 +116,27 @@ public class Basic_Bot_JS extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
-            if(gamepad1.right_bumper){
-                Arm.setPower(0.2);
+            if(!touch.isPressed()) {
+                if (gamepad1.right_bumper) {
+                    Arm.setPower(0.2);
+                } else if (gamepad1.left_bumper) {
+                    Arm.setPower(-0.2);
+                } else {
+                    Arm.setPower(0);
+                }
             }
-            else if(gamepad1.left_bumper){
-                Arm.setPower(-0.2);
+            else{
+                if(gamepad1.right_bumper){
+                    Arm.setPower(0.2);
+                }
+                else {
+                    Arm.setPower(0);
+                }
             }
-            else {
-                Arm.setPower(0);
+            telemetry.addData("Arm Position: ", Arm.getCurrentPosition());
+            telemetry.update();
+            if(gamepad1.a){
+
             }
         }
     }
