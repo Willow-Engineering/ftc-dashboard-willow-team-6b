@@ -61,7 +61,7 @@ public class Basic_Bot_JS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    private DcMotor Arm = null;
+    private DcMotorEx Arm = null;
     private TouchSensor touch = null;
 
     @Override
@@ -74,6 +74,7 @@ public class Basic_Bot_JS extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        Arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "Arm");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -111,12 +112,8 @@ public class Basic_Bot_JS extends LinearOpMode {
             // Send calculated power to wheels
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
-            if(!touch.isPressed()) {
+           /* if(!touch.isPressed()) {
                 if (gamepad1.right_bumper) {
                     Arm.setPower(0.2);
                 } else if (gamepad1.left_bumper) {
@@ -133,11 +130,21 @@ public class Basic_Bot_JS extends LinearOpMode {
                     Arm.setPower(0);
                 }
             }
+            */
             telemetry.addData("Arm Position: ", Arm.getCurrentPosition());
             telemetry.update();
             if(gamepad1.a){
-
+                Arm.setTargetPosition(900);
+                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                Arm.setVelocity(300);
             }
+            else if(gamepad1.b){
+                Arm.setTargetPosition(450);
+                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                Arm.setVelocity(300);
+            }
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
         }
     }
 }
