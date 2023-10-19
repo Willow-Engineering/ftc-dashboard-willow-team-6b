@@ -7,7 +7,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 
-@TeleOp
+/*
 public class Variables_JS {
     int Team = 19824;
     boolean running = false;
@@ -28,3 +28,4 @@ public class Variables_JS {
         telemetry.addData("trigger sum", gamepad1.left_trigger + gamepad1.right_trigger);
     }
 }
+*/
