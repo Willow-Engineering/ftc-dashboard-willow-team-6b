@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-@TeleOp(name="Arm Control")
+@TeleOp(name="ArmControl_SB")
 //@Disabled
 public class ArmControl_SB extends LinearOpMode {
     private DcMotor arm;
