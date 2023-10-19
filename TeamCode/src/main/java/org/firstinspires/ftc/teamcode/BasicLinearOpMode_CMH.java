@@ -40,8 +40,8 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 double turn = gamepad1.left_stick_x;
                 double leftPower = Range.clip(drive + turn, -1.0, 1.0);
                 double rightPower = Range.clip(drive - turn, -1.0, 1.0);
-                double armPower = gamepad1.right_stick_y;
-                //double intakePos = gamepad1.right_trigger;
+                //double armPower = gamepad1.right_stick_y;
+                double intakePos = -.1 * gamepad1.right_trigger + .4;
                 leftDrive.setPower(leftPower);
                 rightDrive.setPower(rightPower);
                 if(gamepad1.a) {
@@ -57,14 +57,11 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 else {
                     arm.setVelocity(0);
                 }
-                //leftIntake.setPosition(intakePos);
-                //rightIntake.setPosition(-intakePos);
-                telemetry.addData("Motors", "left (%.2f), right (%.2f), arm (%.2f)", leftPower, rightPower, armPower);
+                leftIntake.setPosition(intakePos);
+                rightIntake.setPosition(intakePos);
+                telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+                telemetry.addData("Intake", "left (%.2f), right (%.2f)", leftIntake.getPosition(), rightIntake.getPosition());
             }
-            /*else if (driveMode == 1) {
-                double leftPower = -gamepad1.left_stick_y ;
-                double rightPower = -gamepad1.right_stick_y ;
-            }*/
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Arm Position,", arm.getCurrentPosition());
             telemetry.update();
