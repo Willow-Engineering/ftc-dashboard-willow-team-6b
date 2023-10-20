@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 @TeleOp(name="ArmControl_SB")
 //@Disabled
-public class ArmControl_SB extends LinearOpMode {
+public class ArmControl_SB extends Basic_Bot_SB {
     private DcMotor arm;
     private DigitalChannel touch;
 
