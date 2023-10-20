@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -25,11 +26,13 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
         leftDrive  = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         arm = hardwareMap.get(DcMotorEx.class, "arm");
-        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
         arm.setDirection(DcMotorEx.Direction.FORWARD);
         leftIntake = hardwareMap.get(Servo.class, "leftIntake");
         rightIntake = hardwareMap.get(Servo.class, "rightIntake");
+        leftIntake.setDirection(Servo.Direction.FORWARD);
+        rightIntake.setDirection(Servo.Direction.REVERSE);
         int driveMode = 0;
         waitForStart();
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -41,7 +44,8 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 double leftPower = Range.clip(drive + turn, -1.0, 1.0);
                 double rightPower = Range.clip(drive - turn, -1.0, 1.0);
                 //double armPower = gamepad1.right_stick_y;
-                double intakePos = -.1 * gamepad1.right_trigger + .4;
+                double leftIntakePos = -.1 * gamepad1.right_trigger + .5;
+                double rightIntakePos = -.1 * gamepad1.right_trigger + .5;
                 leftDrive.setPower(leftPower);
                 rightDrive.setPower(rightPower);
                 if(gamepad1.a) {
@@ -57,13 +61,14 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 else {
                     arm.setVelocity(0);
                 }
-                leftIntake.setPosition(intakePos);
-                rightIntake.setPosition(intakePos);
+                leftIntake.setPosition(leftIntakePos);
+                rightIntake.setPosition(rightIntakePos);
                 telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
                 telemetry.addData("Intake", "left (%.2f), right (%.2f)", leftIntake.getPosition(), rightIntake.getPosition());
             }
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Arm Position,", arm.getCurrentPosition());
+            telemetry.addData("Triggers", "left (%.2f), right (%.2f)", gamepad1.left_trigger, gamepad1.right_trigger);
             telemetry.update();
         }
     }
