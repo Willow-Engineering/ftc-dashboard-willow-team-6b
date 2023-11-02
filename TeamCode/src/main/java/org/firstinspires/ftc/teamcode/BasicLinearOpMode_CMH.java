@@ -54,17 +54,22 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                 double rightIntakePos = -.1 * gamepad1.right_trigger + .5;
                 leftDrive.setPower(leftPower);
                 rightDrive.setPower(rightPower);
-                if (gamepad1.a) {
-                        arm.setTargetPosition(-1500);
-                        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        arm.setVelocity(300);
-                    } else if (gamepad1.b) {
-                        arm.setTargetPosition(-750);
-                        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        arm.setVelocity(300);
-                    } else {
-                        arm.setVelocity(0);
-                    }
+                if(gamepad1.a) {
+                    arm.setTargetPosition(-1500);
+                    arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    arm.setVelocity(300);
+                }
+                else if(gamepad1.b) {
+                    arm.setTargetPosition(-750);
+                    arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    arm.setVelocity(300);
+                }
+                if (gamepad1.x && arm.getCurrentPosition() > -1600) {
+                    arm.setPower(-300);
+                }
+                else {
+                    arm.setVelocity(0);
+                }
                 leftIntake.setPosition(leftIntakePos);
                 rightIntake.setPosition(rightIntakePos);
                 telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
