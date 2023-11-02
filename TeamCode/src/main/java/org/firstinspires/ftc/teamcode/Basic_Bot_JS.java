@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -65,8 +66,8 @@ public class Basic_Bot_JS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    private DcMotorEx Arm = null;
     private TouchSensor touch = null;
+    private DcMotorEx arm = null;
     Servo leftIntake;
     Servo rightIntake;
 
@@ -82,9 +83,10 @@ public class Basic_Bot_JS extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
-        Arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "arm");
+        arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "arm");
         leftIntake = hardwareMap.get(Servo.class, "leftIntake");
         rightIntake = hardwareMap.get(Servo.class, "rightIntake");
+        touch = hardwareMap.get(DigitalChannel.class, "touch");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -95,7 +97,7 @@ public class Basic_Bot_JS extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -123,35 +125,34 @@ public class Basic_Bot_JS extends LinearOpMode {
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
             telemetry.update();
-            if(!touch.isPressed()) {
                 if (gamepad1.right_bumper) {
-                    Arm.setVelocity(-300);
+                    arm.setVelocity(-300);
                 } else if (gamepad1.left_bumper) {
-                    Arm.setVelocity(150);
+                    arm.setVelocity(150);
                 } else {
-                    Arm.setVelocity(0);
+                    arm.setVelocity(0);
                 }
             }
             else{
                 if(gamepad1.right_bumper){
-                    Arm.setVelocity(-300);
+                    arm.setVelocity(-300);
                 }
                 else {
-                    Arm.setPower(0);
+                    arm.setPower(0);
                 }
             }
 
-            telemetry.addData("Arm Position: ", Arm.getCurrentPosition());
+            telemetry.addData("Arm Position: ", arm.getCurrentPosition());
             telemetry.update();
             if(gamepad1.a){
-                Arm.setTargetPosition(-750);
-                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                Arm.setVelocity(300);
+                arm.setTargetPosition(-750);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setVelocity(300);
             }
             else if(gamepad1.b){
-                Arm.setTargetPosition(-1500);
-                Arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                Arm.setVelocity(300);
+                arm.setTargetPosition(-1500);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setVelocity(300);
             }
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
