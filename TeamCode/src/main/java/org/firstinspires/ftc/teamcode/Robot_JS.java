@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,7 +18,7 @@ public class Robot_JS extends LinearOpMode {
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotorEx arm = null;
-    private TouchSensor touch = null;
+    private DigitalChannel touch = null;
     Servo leftIntake;
     Servo rightIntake;
 
@@ -32,7 +33,7 @@ public class Robot_JS extends LinearOpMode {
         arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "arm");
         leftIntake = hardwareMap.get(Servo.class, "leftIntake");
         rightIntake = hardwareMap.get(Servo.class, "rightIntake");
-        touch = hardwareMap.get(TouchSensor.class, "touch");
+        touch = hardwareMap.get(DigitalChannel.class, "touch");
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -48,20 +49,20 @@ public class Robot_JS extends LinearOpMode {
          double rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
          double leftIntakePos = -.1 * gamepad1.right_trigger + .5;
-         double rightIntakePos = -.1 * gamepad1.right_trigger + .5;
+         double rightIntakePos = .1 * gamepad1.right_trigger + .5;
 
          leftDrive.setPower(leftPower);
          rightDrive.setPower(rightPower);
 
-         if (touch) {
+         if (!touch.getState()) {
              if(gamepad1.right_bumper){
                  arm.setVelocity(-300);
              }
-             else(){
+             else{
                  arm.setVelocity(0);
              }
          }
-         else if(!touch){
+         else if(touch.getState()){
              if(gamepad1.right_bumper){
                  arm.setVelocity(-300);
              }
