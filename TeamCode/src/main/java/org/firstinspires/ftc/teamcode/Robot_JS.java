@@ -32,6 +32,7 @@ public class Robot_JS extends LinearOpMode {
         arm = (DcMotorEx) hardwareMap.get(DcMotor.class, "arm");
         leftIntake = hardwareMap.get(Servo.class, "leftIntake");
         rightIntake = hardwareMap.get(Servo.class, "rightIntake");
+        touch = hardwareMap.get(TouchSensor.class, "touch");
 
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -51,6 +52,23 @@ public class Robot_JS extends LinearOpMode {
 
          leftDrive.setPower(leftPower);
          rightDrive.setPower(rightPower);
+
+         if (touch) {
+             if(gamepad1.right_bumper){
+                 arm.setVelocity(-300);
+             }
+             else(){
+                 arm.setVelocity(0);
+             }
+         }
+         else if(!touch){
+             if(gamepad1.right_bumper){
+                 arm.setVelocity(-300);
+             }
+             else if(gamepad1.left_bumper){
+                 arm.setVelocity(300);
+             }
+         }
 
          if(gamepad1.a) {
              arm.setTargetPosition(-1500);
