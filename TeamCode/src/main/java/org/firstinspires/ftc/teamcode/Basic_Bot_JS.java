@@ -66,8 +66,8 @@ public class Basic_Bot_JS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
-    private TouchSensor touch = null;
     private DcMotorEx arm = null;
+    DigitalChannel touch;
     Servo leftIntake;
     Servo rightIntake;
 
@@ -125,6 +125,7 @@ public class Basic_Bot_JS extends LinearOpMode {
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
             telemetry.update();
+            if(touch.getState()) {
                 if (gamepad1.right_bumper) {
                     arm.setVelocity(-300);
                 } else if (gamepad1.left_bumper) {

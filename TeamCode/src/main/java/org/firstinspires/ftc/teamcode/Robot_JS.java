@@ -62,9 +62,6 @@ public class Robot_JS extends LinearOpMode {
              arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
              arm.setVelocity(300);
          }
-         if (gamepad1.x && arm.getCurrentPosition() > -1600) {
-             arm.setPower(-300);
-         }
          else {
              arm.setVelocity(0);
          }
