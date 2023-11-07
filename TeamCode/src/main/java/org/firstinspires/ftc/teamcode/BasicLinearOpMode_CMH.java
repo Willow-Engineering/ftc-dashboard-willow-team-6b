@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
 
 @TeleOp(name="BasicLinearOpMode_CMH", group="Linear OpMode")
@@ -64,12 +63,13 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
                     arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     arm.setVelocity(300);
                 }
-                if (gamepad1.x && arm.getCurrentPosition() > -1600) {
+                else if (gamepad1.x && arm.getCurrentPosition() > -1600) {
                     arm.setPower(-300);
                 }
                 else {
                     arm.setVelocity(0);
                 }
+                
                 leftIntake.setPosition(leftIntakePos);
                 rightIntake.setPosition(rightIntakePos);
                 telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
