@@ -69,8 +69,8 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
             else if (gamepad1.b) armPos = 750;
             else if (gamepad1.a) armPos = 50;
             else if (gamepad1.x) armPos = 15;
-            else if (gamepad1.dpad_up && (!dpad_upOld || RB == 1) && armPos < 1500) armPos += 10 + 40 * RB;
-            else if (gamepad1.dpad_down && (!dpad_downOld || RB == 1) && armPos > 50) armPos -= 10 + 40 * RB;
+            else if (gamepad1.dpad_up && (!dpad_upOld || RB == 1) && armPos < 1500) armPos += 50 - 40 * RB;
+            else if (gamepad1.dpad_down && (!dpad_downOld || RB == 1) && armPos > 50) armPos -= 50 - 40 * RB;
             dpad_upOld = gamepad1.dpad_up;
             dpad_downOld = gamepad1.dpad_down;
             arm.setTargetPosition(-armPos);
