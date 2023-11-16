@@ -5,12 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
 
 @TeleOp(name="BasicLinearOpMode_CMH", group="Linear OpMode")
 public class BasicLinearOpMode_CMH extends LinearOpMode {
@@ -21,13 +19,6 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
     private DigitalChannel touch = null;
     Servo leftIntake;
     Servo rightIntake;
-
-    int bool2int(boolean n) {
-        int x;
-        if (n) x = 1;
-        else x = 0;
-        return x;
-    }
 
     @Override
     public void runOpMode() {
@@ -54,36 +45,28 @@ public class BasicLinearOpMode_CMH extends LinearOpMode {
         boolean dpad_downOld = false;
         while (opModeIsActive()) {
             //drive code
-            double LB = bool2int(gamepad1.left_bumper);
-            double drive = (1 - .5 * LB) * gamepad1.left_stick_y;
-            double turn = (1 - .5 * LB) * .75 * gamepad1.left_stick_x;
-            double leftPower = Range.clip(drive - turn, -1.0, 1.0);
-            double rightPower = Range.clip(drive + turn, -1.0, 1.0);
-
+            leftDrive.setPower(Range.clip((1 - .5 * CMH_functions.bool2int(gamepad1.left_bumper)) * (gamepad1.left_stick_y - .75 * gamepad1.left_stick_x), -1.0, 1.0));
+            rightDrive.setPower(Range.clip((1 - .5 * CMH_functions.bool2int(gamepad1.left_bumper)) * (gamepad1.left_stick_y + .75 * gamepad1.left_stick_x), -1.0, 1.0));
             //arm code
-            leftDrive.setPower(leftPower);
-            rightDrive.setPower(rightPower);
-            float RB = bool2int(gamepad1.right_bumper);
-            if (!gamepad1.left_bumper && !gamepad1.x && !(armPos % 50 == 0)) armPos += 50 - (armPos % 50);
+            if (!gamepad1.right_bumper && !gamepad1.x && armPos % 50 != 0) armPos += 50 - CMH_functions.arcmod(armPos, 50);
             else if (gamepad1.y) armPos = 1500;
             else if (gamepad1.b) armPos = 750;
             else if (gamepad1.a) armPos = 50;
             else if (gamepad1.x) armPos = 15;
-            else if (gamepad1.dpad_up && (!dpad_upOld || RB == 1) && armPos < 1500) armPos += 50 - 40 * RB;
-            else if (gamepad1.dpad_down && (!dpad_downOld || RB == 1) && armPos > 50) armPos -= 50 - 40 * RB;
+            else if (gamepad1.dpad_up && (!dpad_upOld || CMH_functions.bool2int(gamepad1.right_bumper) == 1) && armPos < 1500) armPos += 50 - 45 * CMH_functions.bool2int(gamepad1.right_bumper);
+            else if (gamepad1.dpad_down && (!dpad_downOld || CMH_functions.bool2int(gamepad1.right_bumper) == 1) && armPos > 50) armPos -= 50 - 45 * CMH_functions.bool2int(gamepad1.right_bumper);
             dpad_upOld = gamepad1.dpad_up;
             dpad_downOld = gamepad1.dpad_down;
             arm.setTargetPosition(-armPos);
-            arm.setVelocity(500);
+            arm.setVelocity(600);
             arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             //intake code
-            double IntakePos = -.15 * gamepad1.right_trigger + .5;
-            leftIntake.setPosition(IntakePos);
-            rightIntake.setPosition(IntakePos);
+            leftIntake.setPosition(-.15 * gamepad1.right_trigger + .5);
+            rightIntake.setPosition(-.15 * gamepad1.right_trigger + .5);
 
             //telemetry
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftDrive.getPower(), rightDrive.getPower());
             telemetry.addData("Intake", "left (%.2f), right (%.2f)", leftIntake.getPosition(), rightIntake.getPosition());
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Arm Position: ", -arm.getCurrentPosition());
